@@ -1,0 +1,18 @@
+[package]
+name = "treespace"
+version = "0.1.1"
+edition = "2024"
+
+[dependencies]
+eframe = { version = "0.37.0", default-features = false, features = ["accesskit", "default_fonts", "glow", "wayland", "x11"] }
+egui_extras = "0.37"
+rayon = "1.12.0"
+
+[target."cfg(windows)".dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_Com", "Win32_System_Registry", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+
+# winit 0.30.13 with one fix in its Windows WM_DPICHANGED handler (use the rectangle Windows
+# suggests), so dragging between screens with different scaling neither bounces nor grows the
+# window. Drop this once eframe ships a winit release with an equivalent fix.
+[patch.crates-io]
+winit = { path = "vendor/winit" }
